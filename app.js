@@ -82,7 +82,7 @@ let _smoothCos = 1;
 const EMA_ALPHA = 0.15;
 
 function onOrientation(event) {
-  // webkitCompassHeading: degrees clockwise from magnetic north, iOS Safari only.
+  // webkitCompassHeading: degrees clockwise from true north (when GPS active), iOS Safari only.
   const raw = event.webkitCompassHeading;
   if (raw === null || raw === undefined) return;
 
@@ -114,7 +114,7 @@ function startGps() {
       console.warn('GPS error:', err.code, err.message);
       document.getElementById('gps-status').textContent = 'GPS error: ' + err.message;
     },
-    { enableHighAccuracy: false, maximumAge: 0 }
+    { enableHighAccuracy: true, maximumAge: 0 }
   );
 }
 
