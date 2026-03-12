@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- PWA / home screen -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Bearing Line">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <title>Bearing Line</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── Compass permission overlay ──────────────────────────────────── -->
+  <div id="overlay" class="overlay">
+    <div class="overlay-card">
+      <div class="overlay-icon">🧭</div>
+      <h1>Bearing Line</h1>
+      <p>Point your phone at any horizon object and draw a line on the map to identify what you're looking at.</p>
+      <p class="permission-note">Tap below to allow compass and location access.</p>
+      <button id="btn-enable" onclick="enableSensors()">Enable Compass &amp; GPS</button>
+      <p id="overlay-error" class="overlay-error hidden"></p>
+    </div>
+  </div>
+
+  <!-- ── Status bar ───────────────────────────────────────────────────── -->
+  <div id="status-bar">
+    <div id="accuracy-dot" class="dot"></div>
+    <span id="gps-status">Waiting for GPS…</span>
+    <div class="spacer"></div>
+    <span id="heading-display" class="heading-display">—°</span>
+    <span id="cardinal" class="cardinal"></span>
+    <span id="lock-icon" class="lock-icon" style="display:none">🔒</span>
+  </div>
+
+  <!-- ── Map ──────────────────────────────────────────────────────────── -->
+  <div id="map"></div>
+
+  <!-- ── Tap-to-inspect panel ─────────────────────────────────────────── -->
+  <div id="info-panel" class="info-panel hidden">
+    <button class="info-close" onclick="closeInfoPanel()">✕</button>
+    <div class="info-label">Point on bearing line</div>
+    <div class="info-coords">
+      <span id="info-lat"></span>
+      <span id="info-lng"></span>
+    </div>
+    <div id="info-dist" class="info-dist"></div>
+    <button class="btn-maps" onclick="openInMaps()">Open in Google Maps</button>
+  </div>
+
+  <!-- ── Controls ─────────────────────────────────────────────────────── -->
+  <div id="controls">
+    <div class="slider-header">
+      <span class="slider-label">Line length</span>
+      <span id="slider-value" class="slider-value">10 km</span>
+    </div>
+    <input
+      type="range"
+      id="slider-distance"
+      min="1" max="50" value="10"
+      oninput="onSliderChange(this.value)"
+    >
+    <div class="slider-ticks">
+      <span>1 km</span>
+      <span>50 km</span>
+    </div>
+    <button id="btn-lock" class="btn-lock" onclick="toggleLock()" disabled>
+      Lock Bearing
+    </button>
+  </div>
+
+  <!-- Load geo math, then app logic, then Google Maps (which calls initMap) -->
+  <script src="geo.js"></script>
+  <script src="app.js"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&callback=initMap"
+    async defer>
+  </script>
+
+</body>
+</html>

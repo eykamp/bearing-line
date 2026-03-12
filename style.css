@@ -1,0 +1,329 @@
+/* ── Reset & base ───────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue:       #2979FF;
+  --blue-dark:  #1c54c2;
+  --amber:      #FFB300;
+  --bg:         #1a1a1a;
+  --bg-surface: #242424;
+  --bg-card:    #2e2e2e;
+  --text:       #ffffff;
+  --text-dim:   rgba(255,255,255,0.55);
+  --text-faint: rgba(255,255,255,0.3);
+  --radius:     12px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  /* dvh handles iOS Safari's shrinking toolbar; vh is the fallback */
+  height: 100vh;
+  height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Overlay ────────────────────────────────────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay-card {
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+}
+
+.overlay-icon {
+  font-size: 56px;
+  margin-bottom: 20px;
+}
+
+.overlay-card h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.overlay-card p {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.permission-note {
+  color: var(--text-faint) !important;
+  font-size: 13px !important;
+}
+
+#btn-enable {
+  width: 100%;
+  padding: 16px;
+  margin-top: 12px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#btn-enable:active {
+  background: var(--blue-dark);
+}
+
+#btn-enable:disabled {
+  opacity: 0.5;
+}
+
+.overlay-error {
+  margin-top: 16px;
+  color: #ff5252 !important;
+  font-size: 14px !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ── Status bar ─────────────────────────────────────────────────────────── */
+
+#status-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  padding: calc(env(safe-area-inset-top, 0px) + 10px) 16px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #555;
+  flex-shrink: 0;
+}
+
+#gps-status {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.heading-display {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+}
+
+.cardinal {
+  font-size: 16px;
+  color: var(--text-dim);
+  min-width: 24px;
+}
+
+.lock-icon {
+  font-size: 14px;
+}
+
+/* ── Map ────────────────────────────────────────────────────────────────── */
+
+#map {
+  flex: 1;
+  min-height: 0;  /* required for flex children to shrink properly */
+}
+
+/* ── Info panel ─────────────────────────────────────────────────────────── */
+
+.info-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--bg-card);
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.5);
+  animation: slide-up 0.2s ease-out;
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.info-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.info-label {
+  font-size: 12px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+.info-coords {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.info-coords span {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.info-dist {
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 18px;
+}
+
+.btn-maps {
+  width: 100%;
+  padding: 14px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-maps:active {
+  background: var(--blue-dark);
+}
+
+/* ── Controls ───────────────────────────────────────────────────────────── */
+
+#controls {
+  flex-shrink: 0;
+  background: var(--bg-surface);
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.slider-label {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.slider-value {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#slider-distance {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+  outline: none;
+  margin: 4px 0;
+}
+
+#slider-distance::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--blue);
+  cursor: pointer;
+  box-shadow: 0 0 0 2px rgba(41,121,255,0.3);
+}
+
+.slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-bottom: 14px;
+}
+
+/* Lock button — default state (blue = ready to lock) */
+.btn-lock {
+  width: 100%;
+  padding: 15px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.btn-lock:active {
+  background: var(--blue-dark);
+}
+
+.btn-lock:disabled {
+  background: #333;
+  color: var(--text-faint);
+  cursor: default;
+}
+
+/* Lock button — locked state (amber outline = ready to unlock) */
+.btn-lock.locked {
+  background: transparent;
+  color: var(--amber);
+  border: 2px solid var(--amber);
+}
+
+.btn-lock.locked:active {
+  background: rgba(255,179,0,0.1);
+}
