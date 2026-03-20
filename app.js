@@ -12,6 +12,7 @@ const state = {
   gpsAccuracyM:    null,
   maxDistanceKm:   10,
   needsFit:        false,  // consumed by render() to trigger a fitBounds
+  hasInitialFit:   false,  // true after first GPS fix zooms the map in
 };
 
 // ── Map objects ───────────────────────────────────────────────────────────
@@ -207,7 +208,13 @@ function render() {
   } else {
     // Line is live — skip markers, keep map centred on user.
     clearMarkers();
-    map.panTo({ lat: origin.lat, lng: origin.lng });
+    if (!state.hasInitialFit) {
+      state.hasInitialFit = true;
+      map.setCenter({ lat: origin.lat, lng: origin.lng });
+      map.setZoom(15);
+    } else {
+      map.panTo({ lat: origin.lat, lng: origin.lng });
+    }
   }
 }
 
