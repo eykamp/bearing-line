@@ -185,6 +185,13 @@ function render() {
   const origin   = getOrigin();
   const endpoint = getEndpoint();
 
+  // Centre map on first GPS fix, regardless of whether we have a heading yet.
+  if (origin && !state.hasInitialFit) {
+    state.hasInitialFit = true;
+    map.setCenter({ lat: origin.lat, lng: origin.lng });
+    map.setZoom(15);
+  }
+
   if (!origin || !endpoint) {
     polyline.setPath([]);
     clearMarkers();
