@@ -44,6 +44,11 @@ function initMap() {
   });
 
   map.addListener('click', onMapClick);
+
+  // iOS Safari sometimes doesn't repaint after zoom — force it.
+  map.addListener('zoom_changed', () => {
+    google.maps.event.trigger(map, 'resize');
+  });
 }
 
 // ── Sensors ───────────────────────────────────────────────────────────────
