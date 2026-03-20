@@ -213,15 +213,8 @@ function render() {
       fitLine(origin, endpoint);
     }
   } else {
-    // Line is live — skip markers, keep map centred on user.
+    // Line is live — skip markers, no continuous re-centering (fights zoom controls).
     clearMarkers();
-    if (!state.hasInitialFit) {
-      state.hasInitialFit = true;
-      map.setCenter({ lat: origin.lat, lng: origin.lng });
-      map.setZoom(15);
-    } else {
-      map.panTo({ lat: origin.lat, lng: origin.lng });
-    }
   }
 }
 
